@@ -536,7 +536,7 @@ const AboutUs = () => {
             onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
             onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
           >
-            <h4 style={cardTitle}>Tilak</h4>
+            <h4 style={cardTitle}>U Tilak</h4>
             <p style={cardSubtitle}>Business Development & General Manager</p>
             <p style={textBlock}>
               With 15 years of experience in business development, Tilak leads P Technologies’ global expansion efforts. He focuses on building partnerships and identifying growth opportunities.

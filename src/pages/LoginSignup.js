@@ -3,34 +3,63 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const LetsConnect = () => {
-  const [email, setEmail] = useState('');
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    
+  });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false); // Loading state
   const navigate = useNavigate();
-
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!email.endsWith('@gmail.com')) {
-      setError('Please enter a valid Gmail address.');
-      return;
-    }
+    // if (!email.endsWith('@gmail.com')) {
+    //   setError('Please enter a valid Gmail address.');
+    //   return;
+    // }
 
     setError('');
     setLoading(true); // Start loading spinner
     try {
-      const response = await axios.post('http://localhost:5000/send-email', { email });
+      // const response = await axios.post('http://localhost:5000/send-email', { email });
+      const formData = new FormData(e.target);
+
+      formData.append("access_key", "2f3f6e62-4e58-4628-81e4-5263aaf75553");
+      // const response = null
+  console.log(formData);
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData
+    });
+    const data = await response.json();
+   console.log(data.success);
+    if (data.success) {
+      // setResult("Form Submitted Successfully");
+      e.target.reset();
+    } else {
+      console.log("Error", data);
+      // setResult(data.message);
+    }
       setSuccess('Thank you for connecting with us!');
       setLoading(false); // Stop loading spinner
-      setEmail(''); // Reset form after success
+      // setEmail(''); // Reset form after success
       alert(response.data.message);
       setTimeout(() => {
         navigate('/thankyou'); // Navigate to the thank you page after a delay
       }, 1000); // 1 second delay to show the success message
     } catch (error) {
       setLoading(false); // Stop loading spinner
-      setError('Failed to send email. Please try again later.');
+      // setError('Failed to send email. Please try again later.');
     }
   };
 
@@ -44,13 +73,13 @@ const LetsConnect = () => {
           <div style={styles.inputContainer}>
             <label style={styles.label}>Gmail Address:</label>
             <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              placeholder="Enter your Gmail address"
-              style={styles.input}
-            />
+                    className="input"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Enter your email"
+                    type="email"
+                  />
           </div>
           <button type="submit" style={styles.submitButton} disabled={loading}>
             {loading ? 'Connecting...' : 'Connect'}
@@ -61,7 +90,7 @@ const LetsConnect = () => {
   );
 };
 
-// Responsive styles matching the Services page with a white background
+
 const styles = {
   container: {
     display: 'flex',

@@ -18,25 +18,45 @@ const ContactUs = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData(e.target);
 
-    // Sending the form data to the backend API
-    axios.post('http://localhost:5000/send-email', formData)
-      .then((response) => {
-        alert('Your message has been sent successfully!');
-        // Clear the form after successful submission
-        setFormData({
-          firstName: '',
-          lastName: '',
-          email: '',
-          query: '',
-        });
-      })
-      .catch((error) => {
-        console.error('There was an error sending the message!', error);
-        alert('Failed to send the message. Please try again.');
-      });
+    formData.append("access_key", "2f3f6e62-4e58-4628-81e4-5263aaf75553");
+
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData
+    });
+  console.log(response);
+
+    const data = await response.json();
+
+    if (data.success) {
+      console.log("Sent Email")
+      // setResult("Form Submitted Successfully");
+      e.target.reset();
+    } else {
+      console.log("Error", data);
+      // setResult(data.message);
+    }
+
+    // // Sending the form data to the backend API
+    // axios.post('http://localhost:5000/send-email', formData)
+    //   .then((response) => {
+    //     alert('Your message has been sent successfully!');
+    //     // Clear the form after successful submission
+    //     setFormData({
+    //       firstName: '',
+    //       lastName: '',
+    //       email: '',
+    //       query: '',
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.error('There was an error sending the message!', error);
+    //     alert('Failed to send the message. Please try again.');
+    //   });
   };
 
   return (

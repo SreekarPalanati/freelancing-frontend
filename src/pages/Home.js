@@ -372,7 +372,6 @@
 
 // export default Home;
 
-
 import React from 'react';
 import Chatbot from './Chatbot';  // Import the Chatbot component
 
@@ -424,6 +423,19 @@ const Home = () => {
             />
             <h3>Reliable Professionals</h3>
             <p>Work with trusted experts who deliver quality results on time.</p>
+          </div>
+
+          {/* New Pre & Post Support Card */}
+          <div style={styles.glassCard}>
+            <img
+              src="app.jpg"
+              alt="Application Support"
+              style={styles.featureImage}
+            />
+            <h3>Application Support</h3>
+            <p>
+              We provide end-to-end application support, ensuring seamless transitions from pre-launch setup to post-launch maintenance, so your business can stay ahead.
+            </p>
           </div>
         </div>
       </section>
@@ -605,3 +617,4 @@ const styles = {
 };
 
 export default Home;
+
